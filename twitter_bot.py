@@ -7,7 +7,6 @@ API_KEY = "aF2K8bWZxGy5PpsTJpcxprEqQ"
 API_SECRET = "teamxp0qRlrNMQYYJKawKbYM3zPvvYT1uHTm2SzUkSd3Yqd7cy"
 ACCESS_TOKEN = "1924827300140355584-EomG5HfUPQrIHMqwBcu4GAvCERvjaM"
 ACCESS_SECRET = "ei1FTvMCfnvil2ZiTXNOeYFG8FCFDP8YOHtjEboeYZ7TC"
-BEARER_TOKEN = ""
 
 # --- AUTENTICACIÓN API v2 ---
 client = tweepy.Client(
@@ -46,8 +45,12 @@ def publicar_tuit():
         f.write(tweet + "\n")
 
     try:
-        client.create_tweet(text=tweet)
-        print(f"Tuit publicado con API v2: {tweet}")
+        lineas = tweet.split("\n")
+        filtrado = [l for l in lineas if not (l.startswith("⬜") or l.startswith("🟥"))]
+        tweet_final = "\n".join(filtrado).strip()
+
+        client.create_tweet(text=tweet_final)
+        print(f"Tuit publicado con API v2: {tweet_final}")
     except Exception as e:
         print(f"Error: {e}")
 
