@@ -7,10 +7,15 @@ API_KEY = "aF2K8bWZxGy5PpsTJpcxprEqQ"
 API_SECRET = "teamxp0qRlrNMQYYJKawKbYM3zPvvYT1uHTm2SzUkSd3Yqd7cy"
 ACCESS_TOKEN = "1924827300140355584-EomG5HfUPQrIHMqwBcu4GAvCERvjaM"
 ACCESS_SECRET = "ei1FTvMCfnvil2ZiTXNOeYFG8FCFDP8YOHtjEboeYZ7TC"
+BEARER_TOKEN = ""
 
-# --- AUTENTICACIÓN ---
-auth = tweepy.OAuth1UserHandler(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
-api = tweepy.API(auth)
+# --- AUTENTICACIÓN API v2 ---
+client = tweepy.Client(
+    consumer_key=API_KEY,
+    consumer_secret=API_SECRET,
+    access_token=ACCESS_TOKEN,
+    access_token_secret=ACCESS_SECRET
+)
 
 # --- CARGAR TUITS ---
 with open("tweets.txt", "r", encoding="utf-8") as f:
@@ -31,7 +36,7 @@ def publicar_tuit():
         used = set()
         disponibles = tweets[:]
         with open("used.txt", "w", encoding="utf-8") as f:
-            f.truncate(0)  # borrar el contenido anterior
+            f.truncate(0)
 
     tweet = random.choice(disponibles)
     used.add(tweet)
@@ -40,8 +45,8 @@ def publicar_tuit():
         f.write(tweet + "\n")
 
     try:
-        api.update_status(tweet)
-        print(f"Tuit publicado: {tweet}")
+        client.create_tweet(text=tweet)
+        print(f"Tuit publicado con API v2: {tweet}")
     except Exception as e:
         print(f"Error: {e}")
 
