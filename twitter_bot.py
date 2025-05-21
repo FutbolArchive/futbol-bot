@@ -17,10 +17,10 @@ client = tweepy.Client(
     access_token_secret=ACCESS_SECRET
 )
 
-# --- CARGAR TUITS COMO BLOQUES (SEPARADOS POR LÍNEA EN BLANCO) ---
+# --- CARGAR TUITS COMO BLOQUES SEPARADOS POR ---TUIT--- ---
 with open("tweets.txt", "r", encoding="utf-8") as f:
     content = f.read()
-    tweets = [block.strip() for block in content.split("\n\n") if block.strip()]
+    tweets = [block.strip() for block in content.split("---TUIT---") if block.strip()]
 
 # --- CARGAR TUITS USADOS ---
 try:
